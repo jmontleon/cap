@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
+import nuleculesReducer from './content/reducer';
 
 export default combineReducers({
-  nulecules: (prevState, action) => {
-    return {};
-  }
+  nulecules: nuleculesReducer
 });
