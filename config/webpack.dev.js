@@ -2,29 +2,29 @@ const webpack = require('webpack');
 const path = require('path');
 
 const projRoot = path.join(__dirname, '..');
-const srcRoot = path.join(projRoot, 'src');
+const clientRoot = path.join(projRoot, 'client');
 const buildDir = path.join(projRoot, 'build');
-const sharedStylesDir = path.join(srcRoot, 'shared', 'styles');
+const sharedStylesDir = path.join(clientRoot, 'shared', 'styles');
 
 const wpConfig = {
   debug: true,
   devtool: 'source-map',
   entry: [
     'webpack-hot-middleware/client',
-    path.join(srcRoot, 'Main')
+    path.join(clientRoot, 'Main')
   ],
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
-        include: srcRoot,
+        include: clientRoot,
         exclude: /test.*spec.js$/
       },
       {
         test: /\.scss$/,
         loaders: ['style', 'css?sourceMap', 'sass?sourceMap'],
-        include: srcRoot
+        include: clientRoot
       }
     ]
   },
@@ -41,7 +41,7 @@ const wpConfig = {
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
-    root: srcRoot,
+    root: clientRoot,
     extensions: ['', '.jsx', '.js']
   },
   sassLoader: {
