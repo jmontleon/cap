@@ -4,7 +4,7 @@
   "description": "\"Minimal React + HMR starter\"",
   "main": "index.js",
   "scripts": {
-    "start": "node dev_srv.js",
+    "start": "node react_build_srv.js",
     "test": "mocha ./src/**/*.spec.js --compilers js:babel-core/register",
     "test:dev": "mocha ./src/**/*.spec.js --compilers js:babel-core/register --watch"
   },
