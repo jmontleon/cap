@@ -10,7 +10,6 @@ import Layout from '../../base/components/Layout';
 class NuleculePage extends React.Component {
   componentWillMount() {
     console.debug('NuleculePage::componentWillMount');
-    this.props.loadNulecules();
     this.props.loadNulecule(this.props.params.nuleculeId);
   }
   render() {
@@ -37,7 +36,7 @@ class NuleculePage extends React.Component {
         <Jumbotron className="nulecule-detail">
           <h2>{nuleculeId} detail page.</h2>
         </Jumbotron>
-        {JSON.stringify(nulecule)}
+        {ff(nulecule)}
       </Layout>
     );
   }
