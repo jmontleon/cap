@@ -5,3 +5,5 @@ npm-debug.log
 
 # Ignore atomicapp working files
 external/
+
+.python-version
