@@ -1,5 +1,5 @@
 {
-  "name": "cap_ui",
+  "name": "cap",
   "version": "1.0.0",
   "description": "\"Minimal React + HMR starter\"",
   "main": "index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eriknelson/cap_ui.git"
+    "url": "git+https://github.com/fusor/cap.git"
   },
   "author": "Erik Nelson <erik@nsk.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/eriknelson/cap_ui/issues"
+    "url": "https://github.com/fusor/cap/issues"
   },
-  "homepage": "https://github.com/eriknelson/cap_ui#readme",
+  "homepage": "https://github.com/fusor/cap#readme",
   "dependencies": {
     "axios": "^0.12.0",
     "babel-core": "^6.10.4",
