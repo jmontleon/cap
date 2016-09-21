@@ -10,6 +10,11 @@ const nuleculesReducer = (prevState={}, action) => {
         return nulecules;
       }, {});
       break;
+    case actionTypes.LOAD_NULECULE_FULFILLED:
+      nextState = Object.assign(prevState, {
+        [action.meta.nuleculeId]: action.payload.data.nulecule
+      })
+      break;
   }
 
   return nextState;
