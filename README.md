@@ -3,7 +3,9 @@
 ### Prereqs
 
 python 2.7.12 and pip
+
 node & npm (tested in 6.5.0)
+
 working (and running) docker install where the $USER belongs to the docker group
 so we won't end up with permissioning issues.
 
