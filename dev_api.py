@@ -6,7 +6,8 @@ from flask_cors import CORS
 from atomicapp.nulecule.base import Nulecule
 from atomicapp.nulecule.config import Config
 
-NULECULE_REPO = '/home/ernelson/cap/nulecule-library'
+NULECULE_REPO = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), 'nulecule-library')
 
 def get_answers(nulecule_path):
     nulecule = Nulecule.load_from_path(nulecule_path)
