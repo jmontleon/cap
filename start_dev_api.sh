@@ -1,2 +1,3 @@
 #!/bin/bash
-PYTHONPATH=$PYTHONPATH:./pylib FLASK_APP=./dev_api.py flask run --port=3001
+project_root="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PYTHONPATH=$PYTHONPATH:$project_root/pylib FLASK_APP=$project_root/dev_api.py flask run --port=3001
