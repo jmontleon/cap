@@ -1,0 +1,43 @@
+#!/bin/sh
+
+subscription-manager repos --disable *
+if [ "$?" -ne "0" ]; then
+    exit
+fi
+
+subscription-manager repos --enable rhel-7-server-rpms
+if [ "$?" -ne "0" ]; then
+    exit
+fi
+
+# Adding rhel7 optional to work around problem from:
+subscription-manager repos --enable rhel-7-server-optional-rpms
+if [ "$?" -ne "0" ]; then
+    exit
+fi
+
+# Installing EPEL to give us python-pip
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+if [ "$?" -ne "0" ]; then
+    exit
+fi
+
+yum install -y tmux vim-enhanced
+if [ "$?" -ne "0" ]; then
+    exit
+fi
+
+yum install -y python-pip python-devel gcc
+if [ "$?" -ne "0" ]; then
+    exit
+fi
+
+yum install -y golang golang-vim
+if [ "$?" -ne "0" ]; then
+    exit
+fi
+
+pip install -r /vagrant/pip_requirements.txt
+if [ "$?" -ne "0" ]; then
+    exit
+fi
