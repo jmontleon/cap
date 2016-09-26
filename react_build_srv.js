@@ -17,11 +17,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'templates', 'index.html'));
 });
 
-app.listen(port, 'localhost', err => {
+app.listen(port, '0.0.0.0', err => {
   if(err) {
     console.log(err);
     return;
   }
 
-  console.log(`Listening at http://127.0.0.1:${port}`);
+  console.log(`Listening at http://0.0.0.0:${port}`);
 });

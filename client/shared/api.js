@@ -1,4 +1,4 @@
-const API_RESOURCE_BASE = 'http://localhost:3001';
+const API_RESOURCE_BASE = 'http://cap.example.com:3001';
 
 export function getBaseUrl() {
   return `${API_RESOURCE_BASE}`;
