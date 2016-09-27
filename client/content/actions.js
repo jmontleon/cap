@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { browserHistory } from 'react-router';
 import { getBaseUrl } from '../shared/api';
 
 const actionTypes = {
@@ -33,6 +34,27 @@ const actions = {
         nuleculeId: nuleculeId
       }
     };
+  },
+  postAnswers: (nuleculeId) => {
+    console.debug('nuleculeId -> ', nuleculeId);
+
+    // Chaining actions with redux-promise-middleware
+    return dispatch => { // Thunk
+      return dispatch({ // Promise
+        type: 'POST_ANSWERS',
+        payload: new Promise((res, rej) => {
+            setTimeout(() => {
+              res({foo: 'bar'})
+            }, 3000);
+          })
+      }).then(({value, action}) => {
+        const reviewPath = `/nulecules/${nuleculeId}/review`;
+        console.debug('then handler running');
+        console.debug('conditional doing a thing...')
+        console.debug('routing to path -> ', reviewPath);
+        browserHistory.push(reviewPath);
+      });
+    }
   }
 };
 

@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import loggerMiddleware from 'redux-logger';
 import promiseMiddleware from 'redux-promise-middleware';
+import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
 import Layout from './base/components/Layout';
 import rootReducer from './rootReducer';
@@ -10,7 +11,7 @@ import Routes from './Routes';
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(promiseMiddleware(), loggerMiddleware())
+  applyMiddleware(thunkMiddleware, promiseMiddleware(), loggerMiddleware())
 );
 
 const mountPoint = document.getElementById('main');

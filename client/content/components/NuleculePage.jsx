@@ -5,7 +5,7 @@ import JSONPretty from 'react-json-pretty';
 import actions from '../actions';
 
 import Layout from '../../base/components/Layout';
-//import actions from '../actions'
+import GraphNodeForm from './GraphNodeForm';
 
 class NuleculePage extends React.Component {
   componentWillMount() {
@@ -21,22 +21,60 @@ class NuleculePage extends React.Component {
     }
     console.debug('nulecule -> ', nulecule);
 
-    const ff = (nulecule) => {
-      if(nulecule) {
+    const renderJson = (header, json) => {
+      if(json) {
         return (
-          <JSONPretty id="nulecule-json" json={nulecule}></JSONPretty>
+          <div>
+            <h3>{header}</h3>
+            <JSONPretty id="nulecule-json" json={json}></JSONPretty>
+          </div>
         )
       } else {
         return null;
       }
     }
 
+    const renderGraphNodes = () => {
+      return Object.keys(nulecule)
+          .filter((key) => key !== 'general')
+          .map((nodeName, idx) => {
+            return <GraphNodeForm key={idx}
+                name={nodeName}
+                answers={nulecule[nodeName]}
+                onValueChange={onValueChange}/>
+          });
+    };
+
+    const onValueChange = function(kv) {
+      console.debug('on value change -> ', kv);
+    }.bind(this);
+
+    let content;
+    if(nulecule) {
+      content = (
+        <div>
+          {renderJson("General", nulecule.general)}
+          {renderGraphNodes()}
+        </div>
+      )
+    } else {
+      // No content yet, loading
+      content = (
+        <Jumbotron>
+          <h2>Loading...</h2>
+        </Jumbotron>
+      )
+    }
+
+    const onButtonClick = this.props.postAnswers.bind(this, nuleculeId)
+
     return (
       <Layout>
         <Jumbotron className="nulecule-detail">
           <h2>{nuleculeId} detail page.</h2>
         </Jumbotron>
-        {ff(nulecule)}
+        {content}
+        <button className="btn btn-primary" onClick={onButtonClick}>Review</button>
       </Layout>
     );
   }
@@ -51,7 +89,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadNulecules: () => dispatch(actions.loadNulecules()),
-    loadNulecule: (nuleculeId) => dispatch(actions.loadNulecule(nuleculeId))
+    loadNulecule: (nuleculeId) => dispatch(actions.loadNulecule(nuleculeId)),
+    postAnswers: (nuleculeId) => dispatch(actions.postAnswers(nuleculeId))
   };
 };
 
