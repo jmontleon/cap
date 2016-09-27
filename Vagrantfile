@@ -9,7 +9,7 @@ PUBLIC_ADDRESS="10.1.2.2"
 VM_CPU = ENV['VM_CPU'] || 2
 
 # Amount of available RAM
-VM_MEMORY = ENV['VM_MEMORY'] || 3072
+VM_MEMORY = ENV['VM_MEMORY'] || 8192
 
 # Validate required plugins
 REQUIRED_PLUGINS = %w(vagrant-service-manager vagrant-registration vagrant-sshfs landrush)
@@ -36,9 +36,12 @@ end
 
 Vagrant.configure(2) do |config|
   config.vm.hostname = "cap.example.com"
+  # Blog post on landrush:  http://developers.redhat.com/blog/2016/05/27/use-vagrant-landrush-to-add-dns-features-to-your-openshift-cdk-machine/
   config.landrush.enabled = true
   config.landrush.host_ip_address = "#{PUBLIC_ADDRESS}"
   config.landrush.tld = 'example.com'
+  # guest_redirect_dns = false, fixed issue with docker unable to fetch images
+  config.landrush.guest_redirect_dns = false
 
   config.vm.provider "virtualbox" do |v, override|
     v.memory = VM_MEMORY
@@ -74,20 +77,22 @@ Vagrant.configure(2) do |config|
   config.registration.proxyUser = PROXY_USER = (ENV['PROXY_USER'] || '')
   config.registration.proxyPassword = PROXY_PASSWORD = (ENV['PROXY_PASSWORD'] || '')
 
-  # vagrant-sshfs
   config.vm.synced_folder '.', '/vagrant', type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
-  if Vagrant::Util::Platform.windows?
-    target_path = ENV['USERPROFILE'].gsub(/\\/,'/').gsub(/[[:alpha:]]{1}:/){|s|'/' + s.downcase.sub(':', '')}
-    config.vm.synced_folder ENV['USERPROFILE'], target_path, type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
-  else
-    config.vm.synced_folder ENV['HOME'], ENV['HOME'], type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
-  end
+
   config.vm.provision "shell", inline: <<-SHELL
     sudo setsebool -P virt_sandbox_use_fusefs 1
   SHELL
 
   # prevent the automatic start of openshift via service-manager by just enabling Docker
   config.servicemanager.services = "docker"
+
+  # Not yet working, still testing router config
+  #config.vm.provision "shell", inline: <<-SHELL
+  #  sudo systemctl enable openshift
+  #  sudo systemctl start openshift
+  #  sudo sed -i 's|subdomain: cap.example.com.10.1.2.2.xip.io|subdomain: cap.example.com|' /var/lib/openshift/openshift.local.config/master/master-config.yaml
+  #  sudo systemctl restart openshift
+  #SHELL
 
   # explicitly enable and start OpenShift
   config.vm.provision "shell", run: "always", inline: <<-SHELL
@@ -96,6 +101,8 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision :shell, :path => "setup/provision.sh"
   config.vm.provision :shell, :path => "setup/setup_vagrant_user.sh", :privileged => false
+
+
 
   config.vm.provision "shell", run: "always", inline: <<-SHELL
     #Get the routable IP address of OpenShift

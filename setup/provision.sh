@@ -22,7 +22,8 @@ if [ "$?" -ne "0" ]; then
     exit
 fi
 
-yum install -y tmux vim-enhanced
+# misc rpms to make life easier for us
+yum install -y tmux vim-enhanced bind-utils net-tools tig 
 if [ "$?" -ne "0" ]; then
     exit
 fi

@@ -4,7 +4,7 @@
 
 A Vagrant virtual environment is provided based on the Red Hat Container Development Kit
 
- - Overivew:
+ - Overview:
     - https://developers.redhat.com/products/cdk/overview/
  - CDK Installation Guide:    
   - https://access.redhat.com/documentation/en/red-hat-container-development-kit/2.2/paged/installation-guide/
