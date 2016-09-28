@@ -39,7 +39,8 @@ Vagrant.configure(2) do |config|
   # Blog post on landrush:  http://developers.redhat.com/blog/2016/05/27/use-vagrant-landrush-to-add-dns-features-to-your-openshift-cdk-machine/
   config.landrush.enabled = true
   config.landrush.host_ip_address = "#{PUBLIC_ADDRESS}"
-  config.landrush.tld = 'example.com'
+  config.landrush.tld = 'cap.example.com'
+  config.landrush.host '.cap.example.com', "#{PUBLIC_ADDRESS}"
   # guest_redirect_dns = false, fixed issue with docker unable to fetch images
   config.landrush.guest_redirect_dns = false
 
