@@ -7,3 +7,5 @@ npm-debug.log
 external/
 
 .python-version
+.vagrant
+
