@@ -26,10 +26,13 @@ if [ "$?" -ne "0" ]; then
 fi
 
 cd /vagrant
+# Be aware of an issue of npm install on virtualbox and their sharedfold implementation
+# I've seen occasional problems replace "npm install" with "npm install --no-bin-links" has helped
 # https://github.com/npm/npm/issues/992#issuecomment-223479918
 # https://github.com/npm/npm/issues/9633
 # Have run into issue of npm install on shared folder with Vagrant & VirtualBox
-npm install --no-bin-links
+#
+npm install
 if [ "$?" -ne "0" ]; then
     exit
 fi

@@ -1,7 +1,7 @@
 # We want to be logged in with the external IP address of openshift
 rm -f ~/.kube/config
 
-oc login 10.0.2.15:8443 --certificate-authority=/var/lib/openshift/openshift.local.config/master/ca.crt -u openshift-dev -p devel
+oc login 10.1.2.2:8443 --certificate-authority=/var/lib/openshift/openshift.local.config/master/ca.crt -u openshift-dev -p devel
 if [ "$?" -ne "0" ]; then
     exit
 fi
