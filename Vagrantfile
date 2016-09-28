@@ -87,13 +87,11 @@ Vagrant.configure(2) do |config|
   # prevent the automatic start of openshift via service-manager by just enabling Docker
   config.servicemanager.services = "docker"
 
-  # Not yet working, still testing router config
-  #config.vm.provision "shell", inline: <<-SHELL
-  #  sudo systemctl enable openshift
-  #  sudo systemctl start openshift
-  #  sudo sed -i 's|subdomain: cap.example.com.10.1.2.2.xip.io|subdomain: cap.example.com|' /var/lib/openshift/openshift.local.config/master/master-config.yaml
-  #  sudo systemctl restart openshift
-  #SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo sed -i 's/^OPENSHIFT_SUBDOMAIN=.*/OPENSHIFT_SUBDOMAIN="$(hostname)"/' /etc/sysconfig/openshift_option
+    sudo systemctl enable openshift
+    sudo systemctl start openshift
+  SHELL
 
   # explicitly enable and start OpenShift
   config.vm.provision "shell", run: "always", inline: <<-SHELL
@@ -102,8 +100,6 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision :shell, :path => "setup/provision.sh"
   config.vm.provision :shell, :path => "setup/setup_vagrant_user.sh", :privileged => false
-
-
 
   config.vm.provision "shell", run: "always", inline: <<-SHELL
     #Get the routable IP address of OpenShift
