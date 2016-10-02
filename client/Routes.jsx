@@ -4,6 +4,7 @@ import {
 } from 'react-router';
 
 import NuleculePage from './content/components/NuleculePage';
+import NuleculeReviewPage from './content/components/NuleculeReviewPage';
 import HomePage from './content/components/HomePage';
 
 const Routes = () => {
@@ -11,6 +12,7 @@ const Routes = () => {
     <Router history={hashHistory}>
       <Route path="/" component={HomePage} />
       <Route path="/nulecules/:nuleculeId" component={NuleculePage} />
+      <Route path="/nulecules/:nuleculeId/review/:deploymentId" component={NuleculeReviewPage} />
     </Router>
   );
 };

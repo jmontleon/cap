@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
-import nuleculesReducer from './content/reducer';
+import { nuleculesReducer, deploymentsReducer } from './content/reducer';
 
 export default combineReducers({
-  nulecules: nuleculesReducer
+  nulecules: nuleculesReducer,
+  deployments: deploymentsReducer,
 });
