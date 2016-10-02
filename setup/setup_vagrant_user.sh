@@ -2,12 +2,12 @@
 
 pushd .
 cd ~
-git clone https://github.com/projectatomic/atomicapp.git
-cd atomicapp
-# Using same versions as we are seeing in recent packaged atomicapps 0.6.3
-git checkout 0.6.3
-sudo make install
-popd
+mkdir -p {src,bin,pkg}
+
+echo "export GOPATH=$HOME" >> ~/.bashrc
+echo "export PATH=\$PATH:\$GOPATH/bin" >> ~/.bashrc
+
+sudo chown -R vagrant:vagrant /home/vagrant/src
 
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
 if [ "$?" -ne "0" ]; then
@@ -36,3 +36,4 @@ npm install
 if [ "$?" -ne "0" ]; then
     exit
 fi
+popd

@@ -34,6 +34,17 @@ unless missing_vars.empty?
   fail Vagrant::Errors::VagrantError.new, msg
 end
 
+PROJECTS_GIT_HOME= File.expand_path "../"
+REQUIRED_PATHS = {
+    "github.com/jmrodri/cap-go" => "#{PROJECTS_GIT_HOME}/cap-go"
+}
+REQUIRED_PATHS.each do |name, p|
+  if !Dir.exists?(p)
+    puts "Unable to find a required git clone for #{name} at #{p}"
+    exit
+  end
+end
+
 Vagrant.configure(2) do |config|
   config.vm.hostname = "cap.example.com"
   # Blog post on landrush:  http://developers.redhat.com/blog/2016/05/27/use-vagrant-landrush-to-add-dns-features-to-your-openshift-cdk-machine/
@@ -80,6 +91,10 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder '.', '/vagrant', type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
 
+  REQUIRED_PATHS.each do |name, p|
+    config.vm.synced_folder p, "/home/vagrant/src/#{name}", type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
+  end
+
   config.vm.provision "shell", inline: <<-SHELL
     sudo setsebool -P virt_sandbox_use_fusefs 1
   SHELL
@@ -100,6 +115,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision :shell, :path => "setup/provision.sh"
   config.vm.provision :shell, :path => "setup/setup_vagrant_user.sh", :privileged => false
+  config.vm.provision :shell, :path => "setup/run_dev_servers_in_tmux.sh", :privileged => false
 
   config.vm.provision "shell", run: "always", inline: <<-SHELL
     #Get the routable IP address of OpenShift
@@ -120,6 +136,16 @@ Vagrant.configure(2) do |config|
     echo "admin/admin"
     echo
     echo "If you have the oc client library on your host, you can also login from your host."
+    echo
+  SHELL
+
+  config.vm.provision "shell", run: "always", inline: <<-SHELL
+    echo
+    echo "tmux is running react & go applications"
+    echo "tmux attach-session -t dev"
+    echo ""
+    echo "Visit:  http://cap.example.com:3000"
+    echo ""
     echo
   SHELL
 end

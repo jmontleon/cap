@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-subscription-manager repos --disable *
+subscription-manager repos --disable=*
 if [ "$?" -ne "0" ]; then
     exit
 fi
@@ -23,7 +23,7 @@ if [ "$?" -ne "0" ]; then
 fi
 
 # misc rpms to make life easier for us
-yum install -y tmux vim-enhanced bind-utils net-tools tig 
+yum install -y tmux vim-enhanced bind-utils net-tools tig
 if [ "$?" -ne "0" ]; then
     exit
 fi
@@ -38,7 +38,7 @@ if [ "$?" -ne "0" ]; then
     exit
 fi
 
-pip install -r /vagrant/pip_requirements.txt
-if [ "$?" -ne "0" ]; then
-    exit
-fi
+#pip install -r /vagrant/pip_requirements.txt
+#if [ "$?" -ne "0" ]; then
+#    exit
+#fi
