@@ -34,6 +34,16 @@ A Vagrant virtual environment is provided based on the Red Hat Container Develop
      1. `tmux attach-session -t dev`
 
 
+### Vagrant-landrush workaround impacts RHEL/Fedora
+
+We have run into issues with a vagrant plugin (landrush) on RHEL/Fedora that requires a patch (https://github.com/vagrant-landrush/landrush/pull/275)
+
+In meantime, you can use the below steps to use RPMs we've built with the patch applied.
+1. dnf -y remove vagrant; rm -rf ~/.vagrant.d/gems/gems ~/.vagrant.d/plugins.json
+1. dnf -y install dnf-plugins-core && dnf copr -y enable jmontleon/gems && dnf -y install qci-vagrant-plugins
+
+
+
 ### Dependencies
 
 Git Projects:
