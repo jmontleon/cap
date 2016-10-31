@@ -61,6 +61,13 @@ REQUIRED_PATHS.each do |name, p|
   end
 end
 
+##
+# These paths are not required but may be helpful to developers
+##
+OPTIONAL_PATHS = {
+    "github.com/fusor/nulecule-library" => "#{PROJECTS_GIT_HOME}/nulecule-library"
+}
+
 Vagrant.configure(2) do |config|
   config.vm.hostname = "cap.example.com"
   # Blog post on landrush:  http://developers.redhat.com/blog/2016/05/27/use-vagrant-landrush-to-add-dns-features-to-your-openshift-cdk-machine/
@@ -116,6 +123,14 @@ Vagrant.configure(2) do |config|
   GO_REQUIRED_PATHS.each do |name, p|
     config.vm.synced_folder p, "/home/vagrant/src/#{name}", type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
   end
+
+  OPTIONAL_PATHS.each do |name, p|
+    if Dir.exists?(p)
+      basename = File.basename(name)
+      config.vm.synced_folder p, "/home/vagrant/#{basename}", type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
+    end
+  end
+
 
   config.vm.provision "shell", inline: <<-SHELL
     sudo setsebool -P virt_sandbox_use_fusefs 1
