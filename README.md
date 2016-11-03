@@ -40,6 +40,9 @@ We have run into issues with a vagrant plugin (landrush) on RHEL/Fedora that req
 
 In meantime, you can use the below steps to use RPMs we've built with the patch applied.  
 
+COPR Repo: https://copr.fedorainfracloud.org/coprs/jmontleon/gems/
+
+
   1. dnf -y remove vagrant; rm -rf ~/.vagrant.d/gems/gems ~/.vagrant.d/plugins.json  
 
   1. dnf -y install dnf-plugins-core && dnf copr -y enable jmontleon/gems && dnf -y install qci-vagrant-plugins
