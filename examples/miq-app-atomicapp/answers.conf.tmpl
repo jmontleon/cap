@@ -1,4 +1,4 @@
-[miq-memcached]
+[miq-memcached-atomicapp:miq-memcached]
 MEMCACHED_MAX_MEMORY = 64
 MEMCACHED_MAX_CONNECTIONS = 1024
 MEMCACHED_SLAB_PAGE_SIZE = 1m
@@ -10,10 +10,14 @@ MEMCACHED_SERVICE_NAME = miq-memcached
 APPLICATION_INIT_DELAY = 60
 POSTGRESQL_USER = admin
 POSTGRESQL_DATABASE = vmdb_production
-[miq-postgresql]
+[miq-postgresql-atomicapp:miq-postgresql]
 POSTGRESQL_PASSWORD = admin
 POSTGRESQL_USER = admin
 POSTGRESQL_DATABASE = vmdb_production
 [general]
 namespace = miq
 provider = openshift
+providertlsverify = False
+provider-api = https://10.1.2.2:8443
+provider-auth = ACCESS_TOKEN
+provider-cafile = /host/var/lib/openshift/openshift.local.config/master/ca.crt
