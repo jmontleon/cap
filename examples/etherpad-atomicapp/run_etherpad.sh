@@ -8,21 +8,21 @@ fi
 
 oc new-project cap
 
-atomic run projectatomic/etherpad-centos7-atomicapp --mode fetch --destination ~/etherpad-centos7-atomicapp
+atomic run fusordevel/etherpad-atomicapp --mode fetch --destination ~/etherpad-atomicapp
 if [ "$?" -ne "0" ]; then
     exit
 fi
 
 export ACCESS_TOKEN=`oc whoami -t`
 sed "s/ACCESS_TOKEN/${ACCESS_TOKEN}/g" answers.conf.tmpl > answers.conf
-sudo cp answers.conf /home/vagrant/etherpad-centos7-atomicapp
+sudo cp answers.conf /home/vagrant/etherpad-atomicapp
 if [ "$?" -ne "0" ]; then
     exit
 fi
 
 pushd .
-cd ~/etherpad-centos7-atomicapp
-time atomic run projectatomic/etherpad-centos7-atomicapp . -v
+cd ~/etherpad-atomicapp
+time atomic run fusordevel/etherpad-atomicapp . -v
 if [ "$?" -ne "0" ]; then
     exit
 fi

@@ -1,12 +1,12 @@
 [etherpad-app]
-image = centos/etherpad
+image = fusordevel/etherpad
 db_port = 3306
 db_pass = sample_pass
 db_name = sample_name
 db_user = sample_user
 db_host = mariadb
 hostport = 9001
-[mariadb-atomicapp]
+[mariadb-centos7-atomicapp:mariadb-atomicapp]
 db_pass = sample_pass
 image = centos/mariadb
 db_user = sample_user

@@ -1,6 +1,6 @@
 pushd .
-cd ~/etherpad-centos7-atomicapp
-time atomic stop projectatomic/etherpad-centos7-atomicapp . -v
+cd ~/etherpad-atomicapp
+time atomic stop fusordevel/etherpad-atomicapp . -v
 popd
 
 
