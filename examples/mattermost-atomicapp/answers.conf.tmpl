@@ -1,0 +1,22 @@
+[mattermost]
+MYSQL_PASSWORD = db_pass
+DATABASE_SERVICE_NAME = mariadb
+DRIVER_NAME = mysql
+MYSQL_DATABASE = mattermost_db
+image = jmontleon/mattermost
+MYSQL_USER = db_user
+endpoint = mattermost1.cap.example.com
+hostport = 8065
+[mariadb-fedora-atomicapp:mariadb-atomicapp]
+db_pass = db_pass
+image = fedora/mariadb
+db_user = db_user
+root_pass = MySQLPass
+db_name = mattermost_db
+[general]
+namespace = cap
+provider = openshift
+providertlsverify = False
+provider-api = https://10.1.2.2:8443
+provider-auth = ACCESS_TOKEN
+provider-cafile = /host/var/lib/openshift/openshift.local.config/master/ca.crt
