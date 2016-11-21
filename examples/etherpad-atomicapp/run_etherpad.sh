@@ -32,16 +32,3 @@ popd
 echo "Sleeping for 30 seconds to allow time for pods to come up."
 sleep 30
 
-echo "Checking what services are running."
-oc get svc
-
-echo ""
-echo "Exposing the etherpad-svc service so it is externally accessible"
-oc expose service etherpad-svc -l name=etherpad
-
-
-ROUTE_INFO=`oc get routes etherpad-svc | head -n2 | tail -n 1`
-ROUTE_INFO_ARRAY=( ${ROUTE_INFO} )
-echo ""
-echo "The etherpad service is accessible with the external URL:"
-echo "${ROUTE_INFO_ARRAY[1]}"
