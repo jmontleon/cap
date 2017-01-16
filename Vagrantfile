@@ -39,7 +39,7 @@ PROJECTS_GIT_HOME= File.expand_path "../"
 # These are _golang_ projects that need to be shared into the VM at the $GOPATH/src
 ##
 GO_REQUIRED_PATHS = {
-    "github.com/fusor/cap-server" => "#{PROJECTS_GIT_HOME}/cap-server"
+    "github.com/fusor/origin-template-service-broker" => "#{PROJECTS_GIT_HOME}/origin-template-service-broker"
 }
 GO_REQUIRED_PATHS.each do |name, p|
   if !Dir.exists?(p)
@@ -49,24 +49,24 @@ GO_REQUIRED_PATHS.each do |name, p|
 end
 
 ##
-# Non-go related projects we need shared into the VM go here
+#Non-go related projects we need shared into the VM go here
 ##
-REQUIRED_PATHS = {
-    "github.com/fusor/cap-ui" => "#{PROJECTS_GIT_HOME}/cap-ui"
-}
-REQUIRED_PATHS.each do |name, p|
-  if !Dir.exists?(p)
-    puts "Unable to find a required git clone for #{name} at #{p}"
-    exit
-  end
-end
+#REQUIRED_PATHS = {
+    #"github.com/fusor/cap-ui" => "#{PROJECTS_GIT_HOME}/cap-ui"
+#}
+#REQUIRED_PATHS.each do |name, p|
+  #if !Dir.exists?(p)
+    #puts "Unable to find a required git clone for #{name} at #{p}"
+    #exit
+  #end
+#end
 
 ##
 # These paths are not required but may be helpful to developers
 ##
-OPTIONAL_PATHS = {
-    "github.com/fusor/nulecule-library" => "#{PROJECTS_GIT_HOME}/nulecule-library"
-}
+#OPTIONAL_PATHS = {
+    #"github.com/fusor/nulecule-library" => "#{PROJECTS_GIT_HOME}/nulecule-library"
+#}
 
 Vagrant.configure(2) do |config|
   config.vm.hostname = "cap.example.com"
@@ -114,23 +114,22 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder '.', '/vagrant', type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
 
-  REQUIRED_PATHS.each do |name, p|
-    basename = File.basename(name)
-    config.vm.synced_folder p, "/home/vagrant/#{basename}", type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
-  end
+  #REQUIRED_PATHS.each do |name, p|
+    #basename = File.basename(name)
+    #config.vm.synced_folder p, "/home/vagrant/#{basename}", type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
+  #end
 
-  # These paths will be under the $GOPATH on the VM
+  ## These paths will be under the $GOPATH on the VM
   GO_REQUIRED_PATHS.each do |name, p|
     config.vm.synced_folder p, "/home/vagrant/src/#{name}", type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
   end
 
-  OPTIONAL_PATHS.each do |name, p|
-    if Dir.exists?(p)
-      basename = File.basename(name)
-      config.vm.synced_folder p, "/home/vagrant/#{basename}", type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
-    end
-  end
-
+  #OPTIONAL_PATHS.each do |name, p|
+    #if Dir.exists?(p)
+      #basename = File.basename(name)
+      #config.vm.synced_folder p, "/home/vagrant/#{basename}", type: 'sshfs', sshfs_opts_append: '-o umask=000 -o uid=1000 -o gid=1000'
+    #end
+  #end
 
   config.vm.provision "shell", inline: <<-SHELL
     sudo setsebool -P virt_sandbox_use_fusefs 1
@@ -152,15 +151,16 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision :shell, :path => "setup/provision.sh"
   config.vm.provision :shell, :path => "setup/setup_vagrant_user.sh", :privileged => false
+  config.vm.provision :shell, :path => "setup/run_dev_servers_in_tmux.sh", :privileged => false
 
-  if ENV.key?('UI_DEV')
-    config.vm.provision :shell,
-      :path => "setup/run_dev_servers_in_tmux.sh",
-      :args => "--uidev",
-      :privileged => false
-  else
-    config.vm.provision :shell, :path => "setup/run_dev_servers_in_tmux.sh", :privileged => false
-  end
+  #if ENV.key?('UI_DEV')
+    #config.vm.provision :shell,
+      #:path => "setup/run_dev_servers_in_tmux.sh",
+      #:args => "--uidev",
+      #:privileged => false
+  #else
+    #config.vm.provision :shell, :path => "setup/run_dev_servers_in_tmux.sh", :privileged => false
+  #end
 
   config.vm.provision "shell", run: "always", inline: <<-SHELL
     #Get the routable IP address of OpenShift

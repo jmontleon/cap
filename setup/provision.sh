@@ -51,7 +51,7 @@ fi
 #
 # Installing EPEL to give us python-pip
 #
-rpm -Uvh https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
 if [ "$?" -ne "0" ]; then
     exit
 fi
