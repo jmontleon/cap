@@ -39,7 +39,7 @@ PROJECTS_GIT_HOME= File.expand_path "../"
 # These are _golang_ projects that need to be shared into the VM at the $GOPATH/src
 ##
 GO_REQUIRED_PATHS = {
-    "github.com/fusor/origin-template-service-broker" => "#{PROJECTS_GIT_HOME}/origin-template-service-broker"
+    "github.com/fusor/ansible-service-broker" => "#{PROJECTS_GIT_HOME}/ansible-service-broker"
 }
 GO_REQUIRED_PATHS.each do |name, p|
   if !Dir.exists?(p)
