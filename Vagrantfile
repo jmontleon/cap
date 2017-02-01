@@ -153,15 +153,6 @@ Vagrant.configure(2) do |config|
   config.vm.provision :shell, :path => "setup/setup_vagrant_user.sh", :privileged => false
   config.vm.provision :shell, :path => "setup/run_dev_servers_in_tmux.sh", :privileged => false
 
-  #if ENV.key?('UI_DEV')
-    #config.vm.provision :shell,
-      #:path => "setup/run_dev_servers_in_tmux.sh",
-      #:args => "--uidev",
-      #:privileged => false
-  #else
-    #config.vm.provision :shell, :path => "setup/run_dev_servers_in_tmux.sh", :privileged => false
-  #end
-
   config.vm.provision "shell", run: "always", inline: <<-SHELL
     #Get the routable IP address of OpenShift
     OSIP=`/opt/adb/openshift/get_ip_address`
@@ -184,27 +175,10 @@ Vagrant.configure(2) do |config|
     echo
   SHELL
 
-  if ENV.key?('UI_DEV')
-    config.vm.provision "shell", run: "always", inline: <<-SHELL
-      echo
-      echo "NOTE: UI_DEV set; running in development mode!"
-      echo "You are expected to be running the react server on the host machine for UI development."
-      echo "tmux is running go api server"
-      echo "tmux attach-session -t dev"
-      echo ""
-      echo "React dev server:  http://cap.example.com:3000"
-      echo ""
-      echo
-    SHELL
-  else
-    config.vm.provision "shell", run: "always", inline: <<-SHELL
-      echo
-      echo "tmux is running react & go applications"
-      echo "tmux attach-session -t dev"
-      echo ""
-      echo "Visit:  http://cap.example.com:3001"
-      echo ""
-      echo
-    SHELL
-  end
+  config.vm.provision "shell", run: "always", inline: <<-SHELL
+    echo
+    echo "tmux is running mock-registry & service broker"
+    echo "tmux attach-session -t dev"
+    echo
+  SHELL
 end
