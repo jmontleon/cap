@@ -177,7 +177,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", run: "always", inline: <<-SHELL
     echo
-    echo "tmux is running mock-registry & service broker"
+    echo "tmux is running mock-registry & service broker & broker-etcd"
     echo "tmux attach-session -t dev"
     echo
   SHELL
