@@ -22,6 +22,8 @@ python-devel
 gcc
 
 jq # catalog search dependency
+btrfs-progs-devel
+device-mapper-devel
 )
 
 ###################################################################
